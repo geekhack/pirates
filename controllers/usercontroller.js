@@ -1,9 +1,10 @@
-
-var mongoose = require('mongoose')
+//import the require libraries and exported modules
+const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User =  require('../models/user')
 
+//registration method for user model
 let register = function(req, res) {
  
 var newUser = new User(req.body);
@@ -20,6 +21,7 @@ newUser.save(function(err, user) {
 });
 };
 
+//signin method
 let sign_in = function(req, res) {
 User.findOne({
   email: req.body.loginemail
@@ -31,10 +33,11 @@ User.findOne({
   const token = jwt.sign({ email: user.email, firstname: user.firstname,lastname: user.lastname, _id: user._id }, 'nice:)')
   return res.json({ 
     token: token
-   });   //res.redirect(`/test/route/${token}`);
+   });   
 });
 };
 
+//check for login
 let loginRequired = function(req, res, next) {
 if (req.user) {
   next();
@@ -43,6 +46,7 @@ if (req.user) {
   return res.status(401).json({ message: 'Unauthorized user!!' });
 }
 };
+//method for returning profile
 let profile = function(req, res, next) {
 if (req.user) {
   res.send(req.user);
@@ -53,4 +57,5 @@ else {
 }
 };
 
+//exporting the modules
 module.exports ={register,loginRequired,profile, sign_in}

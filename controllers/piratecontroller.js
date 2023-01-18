@@ -1,8 +1,9 @@
-//import the model
+//import the Mongo db models
 const error = require('mongoose/lib/error');
 let Pirate = require('../models/pirate')
 
 
+//method for creating pirate
 let createPirate = (req,res)=>{
 
     const body = req.body;
@@ -38,7 +39,7 @@ let createPirate = (req,res)=>{
 
 }
 
-//routes for update the data
+//method for retrieving pirate
 let getOnePirate = async (req,res)=>{
     await Pirate.findOne({_id: req.params.id},(err, pirate)=>{
       if(err){
@@ -65,6 +66,7 @@ let getOnePirate = async (req,res)=>{
 
 }
 
+//method for updating pirate
 let updatePirate = async (req, res) => {
   const body = req.body
 
@@ -110,6 +112,7 @@ let updatePirate = async (req, res) => {
   })
 }
 
+//method for deleting pirate
 let deletePirate = async (req, res) => {
    await Pirate.findOneAndDelete({ _id: req.params.id }, (err, pirate) => {
       if (err) {
@@ -126,7 +129,7 @@ let deletePirate = async (req, res) => {
   }).catch(err => console.log(err))
 
 }
-
+//method for retrieving all the pirates
 let getPirates = async(req,res) => {
   await Pirate.find({},(error, pirates)=>{
     if (error) {
@@ -141,8 +144,7 @@ let getPirates = async(req,res) => {
 }).catch(err => console.log(err))
 }
 
-///check captain existence
-
+///check captain existence - for the frontend dropdown
 let captainExistence =async(req,res) => {
   console.log(req.body)
 
@@ -157,5 +159,5 @@ let captainExistence =async(req,res) => {
 }).catch(err => console.log(err))
 }
 
-
+//exporting the methods
 module.exports ={createPirate,getOnePirate,updatePirate,deletePirate,getPirates,captainExistence}
